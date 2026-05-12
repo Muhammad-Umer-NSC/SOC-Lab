@@ -1,4 +1,5 @@
 # Part 1 — Installing & Configuring Wazuh (SIEM + XDR)
+![Wazuh Logo](./Screenshots/wazuh.jpeg)
 
 **Series:** [SOC Home Lab](../README.md) | **Part:** 1 of N
 
@@ -48,6 +49,8 @@ Key capabilities:
 It correlates data across all these sources to give a fuller picture of an attack — detecting threats that would otherwise slip through the cracks of siloed tools.
 
 ---
+
+![Wazuh Logo](./Screenshots/Wazuh%20SIEM%20+%20XDR.png)
 
 ## What is Wazuh?
 
@@ -113,6 +116,8 @@ Download the latest Wazuh OVA (pre-built virtual machine image):
 > **Note:** If the link above is outdated, always find the latest version from the official documentation:
 > 🔗 [https://documentation.wazuh.com/current/deployment-options/virtual-machine/virtual-machine.html](https://documentation.wazuh.com/current/deployment-options/virtual-machine/virtual-machine.html)
 
+![Vmware Home Page](./Screenshots/VMware%20Home%20Tab.png)
+
 ---
 
 ## Step 4 — Import Wazuh into VMware
@@ -123,6 +128,8 @@ Download the latest Wazuh OVA (pre-built virtual machine image):
 4. Choose an import location and name the VM **Wazuh**
 5. Make sure you have at least **50GB of free disk space** at the import location
 6. Click **Import** and wait for it to finish
+
+
 
 ---
 
@@ -143,12 +150,16 @@ Once the import is complete, configure the VM hardware before booting:
 - Set **Network Adapter 1** to **NAT (VMnet8)**
 - Set **Network Adapter 2** to **VMnet1**
 
+![Adding Network Adapters and more.jpeg](./Screenshots/Adding%20Network%20Adapters%20and%20more.jpeg)
+
 **Upgrade Virtual Hardware:**
 - Click **Upgrade this virtual machine**
 - Click **Next**
 - Select the latest VMware Workstation version
 - Select **Alter this VM**
 - Click **Finish**
+
+![Upgrading VM.jpeg](./Screenshots/Upgrading%20VM.jpeg)
 
 ---
 
@@ -162,6 +173,8 @@ Start the Wazuh VM and wait for it to fully load. Then log in with the default c
 Username: wazuh-user
 Password: wazuh
 ```
+
+![Wazuh Terminal After login.jpeg](./Screenshots/Wazuh%20Terminal%20After%20login.jpeg)
 
 **Switch to root:**
 
@@ -187,6 +200,8 @@ DHCP=ipv4
 
 Save and exit: `Ctrl+O` → `Enter` → `Ctrl+X`
 
+![NAT Settings.jpeg](./Screenshots/NAT%20Settings.jpeg)
+
 **Configure eth1 (Internal interface — Static IP):**
 
 ```bash
@@ -205,6 +220,8 @@ Address=150.1.7.99/24
 
 Save and exit: `Ctrl+O` → `Enter` → `Ctrl+X`
 
+![VMNet1 Settings.jpeg](./Screenshots/VMNet1%20Settings.jpeg)
+
 **Reboot:**
 
 ```bash
@@ -218,6 +235,8 @@ ifconfig
 ```
 
 You should see `150.1.7.99` assigned to `eth1`.
+
+![Confirming Network Settings after reboot.jpeg](./Screenshots/Confirming%20Network%20Settings%20after%20reboot.jpeg)
 
 ---
 
@@ -249,9 +268,13 @@ Open your browser and navigate to:
 https://150.1.7.99
 ```
 
+![Finding vmnet on base machine.jpeg](./Screenshots/Finding%20vmnet%20on%20base%20machine.jpeg)
+
 > If your browser warns that the site isn't secure, click **Advanced** → **Continue to site**. This is expected since Wazuh uses a self-signed certificate by default.
 
 Wait a minute or two for the dashboard to fully initialize. Once the login page appears, enter:
+
+![Finding vmnet on base machine.jpeg](./Screenshots/Wazuh%20Login%20page.png)
 
 ```
 Username: admin
@@ -259,6 +282,8 @@ Password: admin
 ```
 
 You're in! 🎉
+
+![Wazuh Dashboard.png](./Screenshots/Wazuh%20Dasboard.png)
 
 ---
 
