@@ -29,8 +29,8 @@ The entire lab runs inside **VMware Workstation** using two virtual network inte
 
 | Part | Title | Status |
 |------|-------|--------|
-| [Part 1](./part-01-wazuh-setup/) | Installing & Configuring Wazuh (SIEM + XDR) | ✅ Published |
-| [Part 2](./part-02-agent-deployment/) | Deploying a Windows 10 Agent & Sysmon | ✅ Published |
+| [Part 1](./SOC-Lab-Part1) | Installing & Configuring Wazuh (SIEM + XDR) | ✅ Published |
+| [Part 2](./SOC-Lab-Part2) | Deploying a Windows 10 Agent & Sysmon | ✅ Published |
 | Part 3 | Integrating VirusTotal for Malware Alerting | 🔜 Coming Soon |
 
 > New parts are added as the series progresses. Star or watch the repo to get notified.
