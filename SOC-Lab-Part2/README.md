@@ -1,6 +1,7 @@
 # Part 2 — Deploying a Windows 10 Agent & Sysmon
 
 **Series:** [SOC Home Lab](../README.md) | **Part:** 2 of [SOC-Lab-Part1](https://github.com/Muhammad-Umer-NSC/SOC-Lab/blob/main/SOC-Lab-Part1/README.md)
+![Simple Workflow](./screenshot/simple_diagram.png)
 
 ---
 
@@ -122,6 +123,8 @@ Gateway:      150.1.7.100
 
 7. Click **OK**
 
+![Configuring Ethernet 1](./screenshot/Configuring_vmnet1.png)
+
 **Verify connectivity** by opening Command Prompt and pinging your host machine:
 
 ```cmd
@@ -155,7 +158,12 @@ Log in with `admin / admin`.
    150.1.7.99
    ```
    > ⚠️ Make sure this is the **Wazuh server IP**, not your Windows 10 VM IP
+
 3. Optionally assign an **Agent Name** for easy identification — e.g. `Win10-Agent`
+
+![1st image of adding img](./screenshot/Selecting_Wazuh_agent_1.png)
+![2nd image of adding img](./screenshot/Selecting_Wazuh_agent_2.png)
+![3rd image of adding img](./screenshot/Selecting_Wazuh_agent_3.png)
 
 **Run the install command:**
 
@@ -164,8 +172,10 @@ Wazuh will generate an install command for you. Copy it, then:
 1. Open **PowerShell as Administrator** on your Windows 10 VM
 2. Paste the command and press **Enter** — this installs the Wazuh agent
 3. Once done, paste the second command Wazuh gives you and press **Enter** — this starts the agent service
+![Wazuh_Deploy_on_powershell.png](./screenshot/Wazuh_Deploy_on_powershell.png)
 
 **Confirm the agent is active:**
+![Wazuh Agent on Wazuh Dashboard](./screenshot/Active_Agent.png)
 
 Go back to the Wazuh dashboard and click **Back to agent list**. Your Windows 10 machine should appear as **Active**.
 
@@ -218,6 +228,8 @@ cd C:\Path\To\Sysmon\
 sysmon -c
 ```
 
+![Sysmon Installed](./screenshot/After_Sysmon_Installed.png)
+
 If you see a list of filters, Sysmon is installed and configured correctly.
 
 ---
@@ -236,6 +248,8 @@ C:\Program Files (x86)\ossec-agent\
 
 Right-click **win32ui.exe** and run it as Administrator. In the window that opens:
 
+![wazuh-agent.exe](./screenshot/Wazuh_Agent.png)
+
 - Click **View** → **View Config**
 
 This opens `ossec.conf` — the agent's main configuration file.
@@ -252,6 +266,8 @@ Find the line that contains `Policy Monitoring` and paste the following block **
     <location>Microsoft-Windows-Sysmon/Operational</location>
   </localfile>
 ```
+![policy-monitoring](./screenshot/Policy_Monitoring.png)
+
 
 **What this does:**
 - `<localfile>` — tells the agent to collect a log source
@@ -272,6 +288,8 @@ Find the line `File Integrity Monitoring` in the config, then locate `<frequency
     <directories check_all="yes" realtime="yes" report_changes="yes" recursion_level="0">C:\Windows</directories>
     <directories check_all="yes" realtime="yes" report_changes="yes">C:\Users\*\Downloads</directories>
 ```
+![ossec_conf_1.png](./screenshot/ossec_conf_1.png)
+
 
 **What each line does:**
 
@@ -281,6 +299,7 @@ Find the line `File Integrity Monitoring` in the config, then locate `<frequency
 - `C:\Users\*\Downloads` — monitors the Downloads folder of every user on the machine in real time, a common drop location for malicious files
 
 **Save the config** and close the editor.
+
 
 ---
 
@@ -301,6 +320,8 @@ Open the Wazuh dashboard in your browser and navigate to:
 
 **Menu (three horizontal lines)** → **Explore** → **Discover**
 
+![Discover.png](./screenshot/Discover.png)
+
 This is the live log feed for all your agents.
 
 **Set up your filters** by selecting the following fields from the left panel:
@@ -310,10 +331,13 @@ This is the live log feed for all your agents.
 - `rule.description`
 
 **Set your time range** — for testing, set it to the last 15 minutes with auto-refresh every 10 seconds.
+![Dashboard_Filters.png](./screenshot/Dashboard_Filters.png)
 
 **Test it out:**
 
+
 Create or modify a file inside the `Downloads` folder on your Windows 10 VM. Within a few seconds you should see an alert appear in the Wazuh dashboard showing the file activity — logged, timestamped, and attributed to your agent.
+![confirmation.png](./screenshot/confirmation.png)
 
 ---
 
