@@ -336,6 +336,6 @@ By the end of this part you have:
 
 ## ➡️ Next Part
 
-*Part 2 coming soon — stay tuned!*
+[Part 2](https://github.com/Muhammad-Umer-NSC/SOC-Lab/tree/main/SOC-Lab-Part2)
 
 [← Back to Series Home](../README.md)
