@@ -1,4 +1,5 @@
 # Part 3 — Integrating VirusTotal for Malware Alerting
+![front page](./screenshot/virustotal+wazuh.png)
 
 **Series:** [SOC Home Lab](../README.md) | **Part:** 3 of N
 
@@ -47,25 +48,16 @@ This means:
 
 This is why hash-based detection is so effective. An attacker can rename `malware.exe` to `update.exe`, but they can't change its hash without changing the file itself.
 
+![how hashes work](./screenshot/how-hashing-works.png)
+
+
 ---
 
 ## How the Integration Works
 
 Here's the flow once everything is configured:
 
-```
-New file appears on Windows 10 VM
-        ↓
-Wazuh FIM (File Integrity Monitoring) detects it
-        ↓
-Wazuh computes the file hash
-        ↓
-Wazuh sends hash to VirusTotal API
-        ↓
-VirusTotal checks hash against 70+ AV engines
-        ↓
-Result returned to Wazuh → Alert generated on dashboard
-```
+![workflow](./screenshot/virustotal-flow.jpeg)
 
 All of this happens automatically in the background — no manual submission required.
 
@@ -82,9 +74,11 @@ Create a free account at:
 
 ## Step 2 — Get Your API Key
 
-1. Once logged in, click your **account icon** (top right)
+1. Once logged in, click your **account icon** (top right) 
 2. Click **API Key**
+   ![Virustotal-Dashboard.png](./screenshot/Virustotal-Dashboard.png)
 3. Copy your API key and keep it somewhere safe
+   ![api-key-page.png](./screenshot/api-key-page.png)
 
 > ⚠️ **Never share your API key or commit it to a public GitHub repo.** Anyone with your key can use your VirusTotal quota. Treat it like a password.
 
@@ -101,6 +95,8 @@ https://150.1.7.99
 Navigate to:
 
 **Menu (three horizontal lines)** → **Server Management** → **Settings** → **Edit Configuration**
+![wazuh-dashboard-server-management.png](./screenshot/wazuh-dashboard-server-management.png)
+![edit-configuration.png](./screenshot/edit-configuration.png)
 
 Scroll to the very bottom of the configuration file. Just above the closing `</ossec_config>` tag, paste the following block:
 
@@ -121,6 +117,7 @@ Scroll to the very bottom of the configuration file. Just above the closing `</o
 - `<api_key>` — authenticates your requests to the VirusTotal API
 - `<group>syscheck</group>` — scopes the integration to File Integrity Monitoring (syscheck) events only, so VirusTotal is only called when a new file is detected — not on every single alert
 - `<alert_format>json</alert_format>` — formats the alert data as JSON so Wazuh can parse and display the VirusTotal response correctly in the dashboard
+![api-on-wazuh.png](./screenshot/api-on-wazuh.png)
 
 Click **Save** and then click **Restart Manager** to apply the changes.
 
@@ -137,6 +134,8 @@ It exists so that security professionals can safely verify their detection pipel
 ---
 
 ## Step 5 — Disable Windows Defender on the Agent
+
+
 
 Before downloading the EICAR file, disable Windows Defender on the Windows 10 VM so it doesn't quarantine the file before Wazuh can detect it:
 
@@ -178,6 +177,8 @@ Add the following filters from the left panel:
 - `rule.description`
 
 Set your time range to the last **15 minutes** with auto-refresh every **10 seconds**.
+
+![wazuh-virustotal-alert.png](./screenshot/wazuh-virustotal-alert.png)
 
 You should see a VirusTotal alert appear showing that the EICAR file was flagged — with details on how many engines detected it and what it was classified as.
 
